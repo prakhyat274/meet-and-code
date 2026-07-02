@@ -1,25 +1,14 @@
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Room from "./pages/Room";
 
 function App() {
-
-  const [socket, setSocket] = useState(io("http://localhost:5000"));
-  const [message, setMessage] = useState("");
-
-  const handleButtonClick = (event) => {
-    socket.emit("clicked", message);
-    setMessage("");
-  }
-
-  useEffect(() => {
-
-  }, []);
-
-  return <>
-    <input value={message} onChange={(e) => {setMessage(e.target.value)}}></input>
-    <button onClick={handleButtonClick}>Click Me</button>
-  </>;
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/room/:roomId" element={<Room />} />
+    </Routes>
+  );
 }
 
 export default App;

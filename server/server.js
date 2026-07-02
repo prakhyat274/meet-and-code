@@ -8,26 +8,39 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
     origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PATCH"],
+    methods: ["GET", "POST", "PATCH", "PUT"],
   },
 });
 
 app.use(cors());
+app.use(express.json());
 
-app.use("/", (req, res) => {
-  res.send("hello form server", 200);
+app.get("/roomCode", (req, res) => {
+  //Called a Function to generate room code
+  const roomCode = "ABC123";
+  res.json({ roomCode });
+});
+
+app.post("/joinRoom", (req, res) => {
+  const data = req.body;
+  const roomCode = data.roomCode;
+
+  res.json({
+    success: roomCode === "ABC123" ? true : false,
+  });
 });
 
 io.on("connection", (socket) => {
   console.log(socket.id);
 
-  socket.on("disconnect", () => {
-    console.log(`${socket.id} has disconnected`);
+  socket.on("join-room", (data) => {
+    const roomCode = data.roomCode;
+    socket.join(roomCode);
+    console.log(`${socket.id} has joined room ${roomCode}`);
   });
 
-  socket.on("clicked", (message) => {
-    console.log(`${socket.id} said ${message}`);
-    socket.emit("clicked-response", "Hello From the server");
+  socket.on("disconnect", () => {
+    console.log(`${socket.id} has disconnected`);
   });
 });
 
