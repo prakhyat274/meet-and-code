@@ -20,6 +20,15 @@ app.use("/", (req, res) => {
 
 io.on("connection", (socket) => {
   console.log(socket.id);
+
+  socket.on("disconnect", () => {
+    console.log(`${socket.id} has disconnected`);
+  });
+
+  socket.on("clicked", (message) => {
+    console.log(`${socket.id} said ${message}`);
+    socket.emit("clicked-response", "Hello From the server");
+  });
 });
 
 httpServer.listen(5000, () => {
