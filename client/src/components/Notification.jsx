@@ -9,22 +9,22 @@ export default function Notification({ id, text }) {
                 display: "flex",
                 alignItems: "center",
                 gap: "10px",
-                padding: "12px 16px",
+                padding: "11px 15px",
                 borderRadius: "10px",
-                background: "#1c1c1f",
-                border: "1px solid #2a2a2e",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.4)",
-                color: "#f4f4f5",
-                fontSize: "13.5px",
+                background: "#131315",
+                border: "1px solid #232326",
+                color: "#e4e4e7",
+                fontSize: "13px",
+                fontWeight: 500,
                 maxWidth: "280px",
                 zIndex: 50,
             }}>
             <div
                 style={{
-                    width: "8px",
-                    height: "8px",
+                    width: "7px",
+                    height: "7px",
                     borderRadius: "50%",
-                    background: "#6366f1",
+                    background: "#4f46e5",
                     flexShrink: 0,
                 }}
             />
