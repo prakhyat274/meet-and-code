@@ -11,14 +11,14 @@ export default function Room() {
     const { roomCode } = useParams();
     const username = localStorage.getItem("username") ?? "Anonymus";
 
-    const { chat, notifications, participantsList, sendMessage } = useRoomSocket(
-        roomCode,
-        username,
-    );
+    const { chat, notifications, participantsList, sendMessage, toggleMic, toggleCamera } =
+        useRoomSocket(roomCode, username);
 
     const [isChatOpen, setIsChatOpen] = useState(false);
-    const [isMicOn, setIsMicOn] = useState(true);
-    const [isCameraOn, setIsCameraOn] = useState(true);
+    const [isMicOn, setIsMicOn] = useState(false);
+    const [isCameraOn, setIsCameraOn] = useState(false);
+
+    console.log(participantsList);
 
     return (
         <div
@@ -52,9 +52,15 @@ export default function Room() {
 
                 <ControlBar
                     isMicOn={isMicOn}
-                    onToggleMic={() => setIsMicOn((prev) => !prev)}
+                    onToggleMic={() => {
+                        setIsMicOn((prev) => !prev);
+                        toggleMic();
+                    }}
                     isCameraOn={isCameraOn}
-                    onToggleCamera={() => setIsCameraOn((prev) => !prev)}
+                    onToggleCamera={() => {
+                        setIsCameraOn((prev) => !prev);
+                        toggleCamera();
+                    }}
                 />
             </div>
 

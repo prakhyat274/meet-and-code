@@ -62,5 +62,9 @@ export default function useRoomSocket(roomCode, username) {
         });
     };
 
-    return { chat, notifications, participantsList, sendMessage };
+    const toggleMic = () => socket.emit("toggle-mic");
+
+    const toggleCamera = () => socket.emit("toggle-camera");
+
+    return { chat, notifications, participantsList, sendMessage, toggleMic, toggleCamera };
 }

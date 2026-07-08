@@ -69,6 +69,8 @@ io.on("connection", (socket) => {
         users.push({
             socketId: socket.id,
             username: socket.data.username,
+            isMicOn: false,
+            isCameraOn: false,
         });
 
         roomsToUser.set(socket.data.roomCode, users);
@@ -103,6 +105,26 @@ io.on("connection", (socket) => {
             ...data,
             socketID: socket.id,
         });
+    });
+
+    socket.on("toggle-mic", () => {
+        roomsToUser.get(socket.data.roomCode).map((user) => {
+            if (user.socketId == socket.id) user.isMicOn = !user.isMicOn;
+        });
+        io.to(socket.data.roomCode).emit(
+            "update-participants",
+            roomsToUser.get(socket.data.roomCode),
+        );
+    });
+
+    socket.on("toggle-camera", () => {
+        roomsToUser.get(socket.data.roomCode).map((user) => {
+            if (user.socketId == socket.id) user.isCameraOn = !user.isCameraOn;
+        });
+        io.to(socket.data.roomCode).emit(
+            "update-participants",
+            roomsToUser.get(socket.data.roomCode),
+        );
     });
 
     socket.on("disconnect", () => {
